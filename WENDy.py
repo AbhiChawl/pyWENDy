@@ -218,10 +218,12 @@ class WENDy:
             ind = np.argmax(pvals)
             w_hat = w_hat_its[:, ind]
             res = np.hstack((res, res[:, ind].reshape((-1, 1))))
+            ''' 
             res_true = np.hstack((res_true, res_true[:, ind].reshape((-1, 1))))
             res_0 = np.hstack((res_0, res_0[:, ind].reshape((-1, 1))))
             res_0_true = np.hstack((res_0_true, res_0_true[:, ind].reshape((-1, 1))))
             w_hat_its = np.hstack((w_hat_its, w_hat_its[:, ind].reshape((-1, 1))))
+            '''
             #errs = np.hstack((errs, errs[ind]))
         Ginv = lstsq(G_0, RT)[0]
         CovW = Ginv.dot(Ginv.T)
