@@ -163,11 +163,11 @@ class WENDy:
         w_hat_its = w_hat
         res = G_0 @ w_hat - b_0
 
-       
+        '''' 
         res_true = G_0 @ true_vec - b_0
         res_0 = res
         res_0_true = res_true
-        ''''
+        
         if self.err_norm > 0:
             errs = norm(w0 - true_vec, ord=self.err_norm) / norm(true_vec, ord=self.err_norm)
         else:
@@ -204,9 +204,9 @@ class WENDy:
 
             # collect quantities of interest
             res = np.hstack((res, res_n.reshape((-1, 1))))
-            res_true = np.hstack((res_true, (G.dot(true_vec) - b).reshape((-1, 1))))
-            res_0 = np.hstack((res_0, (G_0.dot(w_hat) - b_0).reshape((-1, 1))))
-            res_0_true = np.hstack((res_0_true, (G_0.dot(true_vec) - b_0).reshape((-1, 1))))
+            #res_true = np.hstack((res_true, (G.dot(true_vec) - b).reshape((-1, 1))))
+            #res_0 = np.hstack((res_0, (G_0.dot(w_hat) - b_0).reshape((-1, 1))))
+            #res_0_true = np.hstack((res_0_true, (G_0.dot(true_vec) - b_0).reshape((-1, 1))))
             w_hat_its = np.hstack((w_hat_its, w_hat.reshape((-1, 1))))
             #if self.err_norm > 0:
                 #errs = np.hstack((errs, np.linalg.norm(w_hat - true_vec, self.err_norm) / np.linalg.norm(true_vec, self.err_norm)))
