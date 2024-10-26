@@ -163,11 +163,11 @@ class WENDy:
         w_hat_its = w_hat
         res = G_0 @ w_hat - b_0
 
-        '''''
-        #res_true = G_0 @ true_vec - b_0
-        #res_0 = res
-        #res_0_true = res_true
-
+       
+        res_true = G_0 @ true_vec - b_0
+        res_0 = res
+        res_0_true = res_true
+        ''''
         if self.err_norm > 0:
             errs = norm(w0 - true_vec, ord=self.err_norm) / norm(true_vec, ord=self.err_norm)
         else:
@@ -203,10 +203,10 @@ class WENDy:
             
 
             # collect quantities of interest
-            #res = np.hstack((res, res_n.reshape((-1, 1))))
-            #res_true = np.hstack((res_true, (G.dot(true_vec) - b).reshape((-1, 1))))
-            #res_0 = np.hstack((res_0, (G_0.dot(w_hat) - b_0).reshape((-1, 1))))
-            #res_0_true = np.hstack((res_0_true, (G_0.dot(true_vec) - b_0).reshape((-1, 1))))
+            res = np.hstack((res, res_n.reshape((-1, 1))))
+            res_true = np.hstack((res_true, (G.dot(true_vec) - b).reshape((-1, 1))))
+            res_0 = np.hstack((res_0, (G_0.dot(w_hat) - b_0).reshape((-1, 1))))
+            res_0_true = np.hstack((res_0_true, (G_0.dot(true_vec) - b_0).reshape((-1, 1))))
             w_hat_its = np.hstack((w_hat_its, w_hat.reshape((-1, 1))))
             #if self.err_norm > 0:
                 #errs = np.hstack((errs, np.linalg.norm(w_hat - true_vec, self.err_norm) / np.linalg.norm(true_vec, self.err_norm)))
@@ -217,18 +217,18 @@ class WENDy:
             print('error: WENDy iterates diverged')
             ind = np.argmax(pvals)
             w_hat = w_hat_its[:, ind]
-            #res = np.hstack((res, res[:, ind].reshape((-1, 1))))
-            #res_true = np.hstack((res_true, res_true[:, ind].reshape((-1, 1))))
-            #res_0 = np.hstack((res_0, res_0[:, ind].reshape((-1, 1))))
-            #res_0_true = np.hstack((res_0_true, res_0_true[:, ind].reshape((-1, 1))))
+            res = np.hstack((res, res[:, ind].reshape((-1, 1))))
+            res_true = np.hstack((res_true, res_true[:, ind].reshape((-1, 1))))
+            res_0 = np.hstack((res_0, res_0[:, ind].reshape((-1, 1))))
+            res_0_true = np.hstack((res_0_true, res_0_true[:, ind].reshape((-1, 1))))
             w_hat_its = np.hstack((w_hat_its, w_hat_its[:, ind].reshape((-1, 1))))
             #errs = np.hstack((errs, errs[ind]))
-        #Ginv = lstsq(G_0, RT)[0]
-        #CovW = Ginv.dot(Ginv.T)
-        #stdW = np.sqrt(np.diag(CovW))
-        #mseW = (np.mean(res[:, -1] ** 2))
+        Ginv = lstsq(G_0, RT)[0]
+        CovW = Ginv.dot(Ginv.T)
+        stdW = np.sqrt(np.diag(CovW))
+        mseW = (np.mean(res[:, -1] ** 2))
         self.w_hat  = w_hat
-        return w_hat
+        return w_hat, stdW, mseW
     
     def simulate(self, x0, t):
         tol_ode = 1e-8
